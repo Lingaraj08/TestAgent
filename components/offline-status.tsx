@@ -1,0 +1,4 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { WifiOff } from 'lucide-react';
+export function OfflineStatus() { const [offline, setOffline] = useState(false); useEffect(() => { const sync = () => setOffline(!navigator.onLine); sync(); window.addEventListener('online', sync); window.addEventListener('offline', sync); if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => undefined); return () => { window.removeEventListener('online', sync); window.removeEventListener('offline', sync); }; }, []); return offline ? <div className="fixed z-[60] top-2 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-amber-500 px-3 py-1.5 text-xs font-medium text-white shadow-lg"><WifiOff className="w-3.5 h-3.5" /> Offline mode — drafts and cached shell remain available; AI requests require a connection.</div> : null; }
